@@ -51,13 +51,13 @@ public class Huffman {
      * @param freqTable The frequency table.
      * @return A Huffman tree.
      */
-    public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {
-        PQueue queue = null;
-        for(int i=0;i< freqTable.size();i++){
-
-        }
-
-    }
+  public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {return null;}
+//        PQueue queue = null;
+//        for(int i=0;i< freqTable.size();i++){
+//
+//        }
+//
+//    }
 
     /**
      * Construct the map of characters and codes from a tree. Just call the traverse
