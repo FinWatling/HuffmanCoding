@@ -27,18 +27,18 @@ public class PQueue {
 
         boolean completed = false;
 
-        if (queue.isEmpty()) {
+        if (queue.isEmpty()) { //if the queue is empty simply add the node
             queue.add(n);
         } else {
-            for (int i = 0; i < queue.size(); i++) {
-                if (queue.get(i).getFreq() >= n.getFreq()) {
-                    queue.add(i, n);
-                    completed = true;
+            for (int i = 0; i < queue.size(); i++) { //otherwise, loop over the queue
+                if (queue.get(i).getFreq() >= n.getFreq()) { //if the current node's freq is > or = to n's freq
+                    queue.add(i, n);    //add the new node in the current position. (ArrayList shifts other nodes along)
+                    completed = true;  //set completed to true
                     break;
                 }
             }
             if (!completed) {
-                queue.add(queue.size(), n);
+                queue.add(queue.size(), n); //if not completed add node to end of queue (in case of null entries? check with jim)
             }
         }
 
@@ -52,6 +52,7 @@ public class PQueue {
     public Node dequeue() {
 
         return queue.isEmpty() ? null : queue.remove(0);
+        //if the queue is empty return null otherwise remove index 0
 
 
     }

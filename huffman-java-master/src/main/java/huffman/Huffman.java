@@ -18,20 +18,20 @@ public class Huffman {
      * @return The frequency table.
      */
     public static Map<Character, Integer> freqTable(String input) {
-        if (input == null || input.length() == 0) {
+        if (input == null || input.length() == 0) { //checks if the string is empty
             return null;
         } else {
-            Map<Character, Integer> ft = new HashMap<>();
-            for (int i = 0; i < input.length(); i++) {
+            Map<Character, Integer> ft = new HashMap<>(); //creating the freqtable map
+            for (int i = 0; i < input.length(); i++) { //loops over the string
                 char c = input.charAt(i);
-                if (ft.containsKey(c)) {
-                    int count = ft.get(c);
-                    ft.put(c, ++count);
+                if (ft.containsKey(c)) { //if the freq table already contains key (char)
+                    int count = ft.get(c); //get the key's current value as count
+                    ft.put(c, ++count); //increases the key's value by 1 using new count variable
                 } else {
-                    ft.put(c, 1);
+                    ft.put(c, 1); //sets key's value to 1
                 }
             }
-            return ft;
+            return ft; //returns the freqtable
         }
     }
 
@@ -51,7 +51,9 @@ public class Huffman {
      * @param freqTable The frequency table.
      * @return A Huffman tree.
      */
-  public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {return null;}
+    public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {
+        return null;
+    }
 //        PQueue queue = null;
 //        for(int i=0;i< freqTable.size();i++){
 //
