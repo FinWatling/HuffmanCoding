@@ -1,5 +1,6 @@
 package huffman;
 
+import huffman.tree.Branch;
 import huffman.tree.Leaf;
 import huffman.tree.Node;
 
@@ -52,14 +53,31 @@ public class Huffman {
      * @return A Huffman tree.
      */
     public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {
-        return null;
+        PQueue queue = new PQueue();
+        if (freqTable == null) {
+            return null;
+        }
+        for (Map.Entry<Character, Integer> item : freqTable.entrySet()) {
+
+            Leaf leaf = new Leaf(item.getKey(), item.getValue());
+            queue.enqueue(leaf);
+
+        }
+        while (queue.size() > 1) {
+            Node node1 = queue.dequeue();
+            Node node2 = queue.dequeue();
+            int label = node1.getFreq() + node2.getFreq();
+
+            if (node1.getFreq() > node2.getFreq()) {
+                Branch branch = new Branch(label, node2, node1);
+                queue.enqueue(branch);
+            } else {
+                Branch branch2 = new Branch(label, node1, node2);
+                queue.enqueue(branch2);
+            }
+        }
+        return queue.dequeue();
     }
-//        PQueue queue = null;
-//        for(int i=0;i< freqTable.size();i++){
-//
-//        }
-//
-//    }
 
     /**
      * Construct the map of characters and codes from a tree. Just call the traverse
