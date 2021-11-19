@@ -88,7 +88,8 @@ public class Huffman {
      * representing the path through the tree from the root to the leaf node labelled c.
      */
     public static Map<Character, List<Boolean>> buildCode(Node tree) {
-        throw new UnsupportedOperationException("Method not implemented");
+        ArrayList<Boolean> al = new ArrayList<Boolean>();
+        return tree.traverse(al);
     }
 
     /**
