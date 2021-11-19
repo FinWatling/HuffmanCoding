@@ -106,7 +106,16 @@ public class Huffman {
      * @return The Huffman coding.
      */
     public static HuffmanCoding encode(String input) {
-        throw new UnsupportedOperationException("Method not implemented");
+        Map table = freqTable(input);
+        Node tree = treeFromFreqTable(table);
+        Map codemap = buildCode(tree);
+        ArrayList<Object> output = new ArrayList<Object>();
+        for (int i=0;i<input.length();i++){
+            char c = input.charAt(i);
+            
+        }
+        System.out.println(output);
+        return null;
     }
 
     /**
