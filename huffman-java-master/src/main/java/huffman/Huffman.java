@@ -88,8 +88,8 @@ public class Huffman {
      * representing the path through the tree from the root to the leaf node labelled c.
      */
     public static Map<Character, List<Boolean>> buildCode(Node tree) {
-        ArrayList<Boolean> al = new ArrayList<Boolean>();
-        return tree.traverse(al);
+        ArrayList<Boolean> al = new ArrayList<>();
+        return tree == null ? null : tree.traverse(al);
     }
 
     /**
@@ -106,15 +106,16 @@ public class Huffman {
      * @return The Huffman coding.
      */
     public static HuffmanCoding encode(String input) {
-        Map table = freqTable(input);
+        Map<Character, Integer> table = freqTable(input);
         Node tree = treeFromFreqTable(table);
-        Map codemap = buildCode(tree);
-        ArrayList<Object> output = new ArrayList<Object>();
+        Map<Character, List<Boolean>> codemap = buildCode(tree);
+
+        ArrayList list = new ArrayList();
         for (int i=0;i<input.length();i++){
             char c = input.charAt(i);
-            
+            list.add(codemap.get(c));
         }
-        System.out.println(output);
+        System.out.println(list);
         return null;
     }
 
