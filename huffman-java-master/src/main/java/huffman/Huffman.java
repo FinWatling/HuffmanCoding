@@ -110,13 +110,12 @@ public class Huffman {
         Node tree = treeFromFreqTable(table);
         Map<Character, List<Boolean>> codemap = buildCode(tree);
 
-        ArrayList list = new ArrayList();
-        for (int i=0;i<input.length();i++){
+        ArrayList<Boolean> list = new ArrayList<>();
+        for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            list.add(codemap.get(c));
+            list.addAll(codemap != null ? codemap.get(c) : null);
         }
-        System.out.println(list);
-        return null;
+        return new HuffmanCoding(codemap, list);
     }
 
     /**
@@ -142,7 +141,41 @@ public class Huffman {
      * @return The reconstructed tree.
      */
     public static Node treeFromCode(Map<Character, List<Boolean>> code) {
-        throw new UnsupportedOperationException("Method not implemented");
+        Branch root = new Branch(0, null, null);
+        Branch curr = root;
+        for (char c : code.keySet()) {
+            List<Boolean> blist = code.get(c);
+            for (int i = 0; i < blist.size(); i++) {
+                if (i == blist.size() - 1) {
+                    Leaf leaf = new Leaf(c, 0);
+                    if (!blist.get(i)) {
+                        curr.setLeft(leaf);
+                    } else {
+                        curr.setRight(leaf);
+                    }
+                }
+                if (!blist.get(i)) {
+                    if (root.getLeft() == null) {
+                        Branch next = new Branch(0, null, null);
+                        curr.setLeft(next);
+                        curr = next;
+                    } else {
+                        curr = (Branch) curr.getLeft();
+                    }
+                } else {
+                    if (root.getRight() == null) {
+                        Branch next = new Branch(0, null, null);
+                        curr.setRight(next);
+                        curr = next;
+                    } else {
+                        curr = (Branch) curr.getRight();
+                    }
+                }
+            }
+            curr = root;
+
+        }
+        return root;
     }
 
 
@@ -158,6 +191,25 @@ public class Huffman {
      * @return The decoded string.
      */
     public static String decode(Map<Character, List<Boolean>> code, List<Boolean> data) {
-        throw new UnsupportedOperationException("Method not implemented");
+        Branch root = (Branch) treeFromCode(code);
+        Node curr = root;
+        String decoded = "";
+        for (int i = 0; i < data.size(); i++) {
+            Branch b = (Branch) curr;
+            if (b.getRight().equals(null) && b.getLeft().equals(null)) {
+
+                decoded += ((Leaf) curr).getLabel();
+                curr = root;
+            }
+            if (data.get(i)) {
+                curr = b.getRight();
+            } else {
+                curr = b.getLeft();
+            }
+
+
+        }
+        System.out.println(decoded);
+        return decoded;
     }
 }
