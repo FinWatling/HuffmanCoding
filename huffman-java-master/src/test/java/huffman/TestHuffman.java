@@ -85,6 +85,17 @@ public class TestHuffman {
     }
 
     @Test
+    public void testMyTest() {
+
+            String input = "aaabbc";
+            HuffmanCoding hc = Huffman.encode(input);
+            String decode = Huffman.decode(hc.getCode(), hc.getData());
+            assertEquals(input, decode);
+
+    }
+
+
+    @Test
     public void testCompressBook() {
         try {
             String input = Files.readString(Path.of("etc/pg1459.txt"), StandardCharsets.ISO_8859_1);

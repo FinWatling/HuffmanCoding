@@ -140,40 +140,86 @@ public class Huffman {
      * @param code The code.
      * @return The reconstructed tree.
      */
+//    public static Node treeFromCode(Map<Character, List<Boolean>> code) {
+//        Branch root = new Branch(0, null, null);
+//        Branch curr = root;
+//        for (char c : code.keySet()) {
+//            List<Boolean> blist = code.get(c);
+//            for (int i = 0; i < blist.size(); i++) {
+//                if (i == blist.size() - 1) {
+//                    Leaf leaf = new Leaf(c, 0);
+//                    if (!blist.get(i)) {
+//                        curr.setLeft(leaf);
+//                    } else {
+//                        curr.setRight(leaf);
+//                    }
+//                }
+//                if (!blist.get(i)) {
+//                    if (root.getLeft() == null) {
+//                        Branch next = new Branch(0, null, null);
+//                        curr.setLeft(next);
+//                        curr = next;
+//                    } else {
+//                        curr = (Branch) curr.getLeft();
+//                    }
+//                } else {
+//                    if (root.getRight() == null) {
+//                        Branch next = new Branch(0, null, null);
+//                        curr.setRight(next);
+//                        curr = next;
+//                    } else {
+//                        curr = (Branch) curr.getRight();
+//                    }
+//                }
+//            }
+//            curr = root;
+//
+//        }
+//        return root;
+//    }
     public static Node treeFromCode(Map<Character, List<Boolean>> code) {
         Branch root = new Branch(0, null, null);
-        Branch curr = root;
+        Node curr = root;
         for (char c : code.keySet()) {
+
             List<Boolean> blist = code.get(c);
             for (int i = 0; i < blist.size(); i++) {
-                if (i == blist.size() - 1) {
-                    Leaf leaf = new Leaf(c, 0);
-                    if (!blist.get(i)) {
-                        curr.setLeft(leaf);
-                    } else {
-                        curr.setRight(leaf);
-                    }
-                }
-                if (!blist.get(i)) {
-                    if (root.getLeft() == null) {
-                        Branch next = new Branch(0, null, null);
-                        curr.setLeft(next);
-                        curr = next;
-                    } else {
-                        curr = (Branch) curr.getLeft();
-                    }
-                } else {
-                    if (root.getRight() == null) {
-                        Branch next = new Branch(0, null, null);
-                        curr.setRight(next);
-                        curr = next;
-                    } else {
-                        curr = (Branch) curr.getRight();
-                    }
-                }
-            }
-            curr = root;
 
+                if (!blist.get(i)) {
+
+                    if (i == blist.size() - 1) {
+                        Leaf leaf = new Leaf(c, 0);
+                        ((Branch) curr).setLeft(leaf);
+                        curr = root;
+
+                    } else {
+                        if (((Branch) curr).getLeft() == null) {
+                            Branch branch = new Branch(0, null, null);
+                            ((Branch) curr).setLeft(branch);
+                        }
+                        curr = ((Branch) curr).getLeft();
+                    }
+
+
+                } else if (blist.get(i)) {
+
+                    if (i == blist.size() - 1) {
+                        Leaf leaf = new Leaf(c, 0);
+                        ((Branch) curr).setRight(leaf);
+                        curr = root;
+                    } else {
+
+                        if (((Branch) curr).getRight() == null) {
+                            Branch branch = new Branch(0, null, null);
+                            ((Branch) curr).setRight(branch);
+                        }
+                        curr = ((Branch) curr).getRight();
+                    }
+
+
+                }
+
+            }
         }
         return root;
     }
@@ -191,25 +237,28 @@ public class Huffman {
      * @return The decoded string.
      */
     public static String decode(Map<Character, List<Boolean>> code, List<Boolean> data) {
-        Branch root = (Branch) treeFromCode(code);
+        Node root = treeFromCode(code);
         Node curr = root;
         String decoded = "";
         for (int i = 0; i < data.size(); i++) {
-            Branch b = (Branch) curr;
-            if (b.getRight().equals(null) && b.getLeft().equals(null)) {
+            Node b = curr;
+            if (b instanceof Leaf) {
 
                 decoded += ((Leaf) curr).getLabel();
                 curr = root;
             }
-            if (data.get(i)) {
-                curr = b.getRight();
-            } else {
-                curr = b.getLeft();
+            if (b instanceof Branch) {
+                if (data.get(i)) {
+                    curr = ((Branch) b).getRight();
+                } else {
+                    curr = ((Branch) b).getLeft();
+                }
+
             }
-
-
         }
         System.out.println(decoded);
         return decoded;
     }
+
+
 }
