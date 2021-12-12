@@ -239,25 +239,24 @@ public class Huffman {
     public static String decode(Map<Character, List<Boolean>> code, List<Boolean> data) {
         Node root = treeFromCode(code);
         Node curr = root;
-        String decoded = "";
-        for (int i = 0; i < data.size(); i++) {
-            Node b = curr;
-            if (b instanceof Leaf) {
+        StringBuilder decoded = new StringBuilder();
+        for (Boolean item : data) {
+            if (curr instanceof Leaf) {
 
-                decoded += ((Leaf) curr).getLabel();
+                decoded.append(((Leaf) curr).getLabel());
                 curr = root;
+
             }
-            if (b instanceof Branch) {
-                if (data.get(i)) {
-                    curr = ((Branch) b).getRight();
+            if (curr instanceof Branch) {
+                if (item) {
+                    curr = ((Branch) curr).getRight();
                 } else {
-                    curr = ((Branch) b).getLeft();
+                    curr = ((Branch) curr).getLeft();
                 }
 
             }
         }
-        System.out.println(decoded);
-        return decoded;
+        return decoded.toString();
     }
 
 
