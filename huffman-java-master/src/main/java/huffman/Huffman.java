@@ -241,21 +241,23 @@ public class Huffman {
         Node curr = root;
         StringBuilder decoded = new StringBuilder();
         for (Boolean item : data) {
+
+            if (item) {
+                curr = ((Branch) curr).getRight();
+            } else {
+                curr = ((Branch) curr).getLeft();
+            }
+
             if (curr instanceof Leaf) {
 
                 decoded.append(((Leaf) curr).getLabel());
                 curr = root;
 
             }
-            if (curr instanceof Branch) {
-                if (item) {
-                    curr = ((Branch) curr).getRight();
-                } else {
-                    curr = ((Branch) curr).getLeft();
-                }
 
-            }
+
         }
+        System.out.println(decoded);
         return decoded.toString();
     }
 
