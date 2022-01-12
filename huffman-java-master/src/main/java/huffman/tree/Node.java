@@ -15,6 +15,7 @@ public abstract class Node {
     }
 
     public int getFreq() {
+
         return freq;
     }
 

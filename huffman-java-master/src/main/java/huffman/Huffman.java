@@ -19,20 +19,20 @@ public class Huffman {
      * @return The frequency table.
      */
     public static Map<Character, Integer> freqTable(String input) {
-        if (input == null || input.length() == 0) { //checks if the string is empty
+        if (input == null || input.length() == 0) { //to prevent null pointer exception
             return null;
         } else {
-            Map<Character, Integer> ft = new HashMap<>(); //creating the freqtable map
-            for (int i = 0; i < input.length(); i++) { //loops over the string
+            Map<Character, Integer> ft = new HashMap<>();
+            for (int i = 0; i < input.length(); i++) {
                 char c = input.charAt(i);
-                if (ft.containsKey(c)) { //if the freq table already contains key (char)
-                    int count = ft.get(c); //get the key's current value as count
-                    ft.put(c, ++count); //increases the key's value by 1 using new count variable
+                if (ft.containsKey(c)) {
+                    int count = ft.get(c);
+                    ft.put(c, ++count);
                 } else {
-                    ft.put(c, 1); //sets key's value to 1
+                    ft.put(c, 1);
                 }
             }
-            return ft; //returns the freqtable
+            return ft;
         }
     }
 
@@ -57,7 +57,7 @@ public class Huffman {
         if (freqTable == null) {
             return null;
         }
-        for (Map.Entry<Character, Integer> item : freqTable.entrySet()) {
+        for (Map.Entry<Character, Integer> item : freqTable.entrySet()) { //nicer way of iterating over the keyset for this problem
 
             Leaf leaf = new Leaf(item.getKey(), item.getValue());
             queue.enqueue(leaf);
@@ -66,7 +66,7 @@ public class Huffman {
         while (queue.size() > 1) {
             Node node1 = queue.dequeue();
             Node node2 = queue.dequeue();
-            int label = node1.getFreq() + node2.getFreq();
+            int label = node1.getFreq() + node2.getFreq(); //creating label variable so I don't have to do it inside the branch constructor
 
             if (node1.getFreq() > node2.getFreq()) {
                 Branch branch = new Branch(label, node2, node1);
@@ -105,17 +105,18 @@ public class Huffman {
      * @param input The data to encode.
      * @return The Huffman coding.
      */
+
     public static HuffmanCoding encode(String input) {
         Map<Character, Integer> table = freqTable(input);
-        Node tree = treeFromFreqTable(table);
-        Map<Character, List<Boolean>> codemap = buildCode(tree);
+        Node tree = treeFromFreqTable(table); //restricts this method to O(n^2) due to .enqueue method within for loop.
+        Map<Character, List<Boolean>> codeMap = buildCode(tree);
 
         ArrayList<Boolean> list = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            list.addAll(codemap != null ? codemap.get(c) : null);
+            list.addAll(codeMap != null ? codeMap.get(c) : null);
         }
-        return new HuffmanCoding(codemap, list);
+        return new HuffmanCoding(codeMap, list);
     }
 
     /**
@@ -140,43 +141,7 @@ public class Huffman {
      * @param code The code.
      * @return The reconstructed tree.
      */
-//    public static Node treeFromCode(Map<Character, List<Boolean>> code) {
-//        Branch root = new Branch(0, null, null);
-//        Branch curr = root;
-//        for (char c : code.keySet()) {
-//            List<Boolean> blist = code.get(c);
-//            for (int i = 0; i < blist.size(); i++) {
-//                if (i == blist.size() - 1) {
-//                    Leaf leaf = new Leaf(c, 0);
-//                    if (!blist.get(i)) {
-//                        curr.setLeft(leaf);
-//                    } else {
-//                        curr.setRight(leaf);
-//                    }
-//                }
-//                if (!blist.get(i)) {
-//                    if (root.getLeft() == null) {
-//                        Branch next = new Branch(0, null, null);
-//                        curr.setLeft(next);
-//                        curr = next;
-//                    } else {
-//                        curr = (Branch) curr.getLeft();
-//                    }
-//                } else {
-//                    if (root.getRight() == null) {
-//                        Branch next = new Branch(0, null, null);
-//                        curr.setRight(next);
-//                        curr = next;
-//                    } else {
-//                        curr = (Branch) curr.getRight();
-//                    }
-//                }
-//            }
-//            curr = root;
-//
-//        }
-//        return root;
-//    }
+
     public static Node treeFromCode(Map<Character, List<Boolean>> code) {
         Branch root = new Branch(0, null, null);
         Node curr = root;
@@ -199,7 +164,6 @@ public class Huffman {
                         }
                         curr = ((Branch) curr).getLeft();
                     }
-
 
                 } else if (blist.get(i)) {
 
@@ -237,9 +201,9 @@ public class Huffman {
      * @return The decoded string.
      */
     public static String decode(Map<Character, List<Boolean>> code, List<Boolean> data) {
-        Node root = treeFromCode(code);
+        Node root = treeFromCode(code); //restricts this method to O(n^2) due to nested for loop in treeFromCode method
         Node curr = root;
-        StringBuilder decoded = new StringBuilder();
+        StringBuilder decoded = new StringBuilder(); //using StringBuilder makes more sense than just using +=
         for (Boolean item : data) {
 
             if (item) {
@@ -254,8 +218,6 @@ public class Huffman {
                 curr = root;
 
             }
-
-
         }
         System.out.println(decoded);
         return decoded.toString();

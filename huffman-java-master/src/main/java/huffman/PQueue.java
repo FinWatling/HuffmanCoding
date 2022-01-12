@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class PQueue {
 
-    private List<Node> queue;
+    private final List<Node> queue;
 
     public PQueue() {
         queue = new ArrayList<>();
@@ -30,15 +30,15 @@ public class PQueue {
         if (queue.isEmpty()) { //if the queue is empty simply add the node
             queue.add(n);
         } else {
-            for (int i = 0; i < queue.size(); i++) { //otherwise, loop over the queue
-                if (queue.get(i).getFreq() >= n.getFreq()) { //if the current node's freq is > or = to n's freq
-                    queue.add(i, n);    //add the new node in the current position. (ArrayList shifts other nodes along)
-                    completed = true;  //set completed to true
+            for (int i = 0; i < queue.size(); i++) {
+                if (queue.get(i).getFreq() >= n.getFreq()) {
+                    queue.add(i, n);
+                    completed = true;
                     break;
                 }
             }
             if (!completed) {
-                queue.add(queue.size(), n); //if not completed add node to end of queue (in case of null entries? check with jim)
+                queue.add(queue.size(), n);
             }
         }
 

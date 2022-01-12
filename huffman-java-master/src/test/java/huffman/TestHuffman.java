@@ -85,7 +85,7 @@ public class TestHuffman {
     }
 
     @Test
-    public void testMyTest() {
+    public void testMyTest() { //used to troubleshoot some bugs in the decode method.
 
             String input = "aaabbc";
             HuffmanCoding hc = Huffman.encode(input);

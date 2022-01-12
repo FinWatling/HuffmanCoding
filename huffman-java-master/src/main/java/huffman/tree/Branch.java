@@ -34,20 +34,20 @@ public class Branch extends Node {
      */
     public Map<Character, List<Boolean>> traverse(List<Boolean> list) {
 
-        ArrayList<Boolean> leftList = new ArrayList(list);
+        ArrayList<Boolean> leftList = new ArrayList<>(list);
         leftList.add(false);
 
-        Map lt = left != null ? left.traverse(leftList) : new HashMap();
+        Map<Character, List<Boolean>> lt = left != null ? left.traverse(leftList) : new HashMap<>();
 
 
-        ArrayList<Boolean> rightlist = new ArrayList(list);
-        rightlist.add(true);
+        ArrayList<Boolean> rightList = new ArrayList<>(list);
+        rightList.add(true);
 
-        Map rt = right != null ? right.traverse(rightlist) : new HashMap();
+        Map<Character, List<Boolean>> rt = right != null ? right.traverse(rightList) : new HashMap<>();
 
         rt.putAll(lt);
 
-        return rt;
+        return rt; // only returning rt as it contains all values thanks to putALL on ln 48
 
     }
 
